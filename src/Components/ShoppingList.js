@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-// import products from '../JSON/JSONData.json';
-
+import Filters from './Filters';
 class ShoppingList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      searchItem: '',
     };
   }
 
@@ -17,31 +16,44 @@ class ShoppingList extends Component {
     this.props.dispatch({ type: 'ADD_CART_ITEM', payload: item });
   };
 
+  filterArray = (value) => {
+    this.props.dispatch({ type: 'SORT_ITEMS', payload: value });
+  };
+
+  filteredItems = (arr, text) => {
+    return arr.filter((item) =>
+      item.name.toLowerCase().includes(text.toLowerCase())
+    );
+  };
+
   render() {
-    const { data } = this.state;
-    const arr = data && data.length ? data : [];
-    console.log(this.props.products, 'shopping list');
-    const { products } = this.props;
+    const { products, searchText } = this.props;
+    console.log(searchText, 'search text');
+    // const { searchText } = this.state;
+    const renderItem = searchText
+      ? this.filteredItems(products, searchText)
+      : products;
+    console.log(renderItem, 'renderItem');
 
     return (
       <div style={{}}>
+        <Filters filter={this.filterArray} />
         <div
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            // border: '1px solid rgba(0,0,0,1)',
             justifyContent: 'flex-start',
             alignItems: 'center',
             boxSizing: 'border-box',
           }}
         >
-          {products.map((dataDetails) => {
+          {renderItem.map((dataDetails) => {
             return (
               <div
                 style={{
                   width: '10rem',
                   height: '17rem',
-                  padding: '0.5rem',
+                  padding: '0 0.5rem',
                   boxSizing: 'border-box',
                   textAlign: 'center',
                 }}

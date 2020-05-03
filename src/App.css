@@ -168,3 +168,19 @@ body {
   /* background-color: blue; */
   text-align: 'center';
 }
+
+/*  place holder styling. */
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: 'white';
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: 'white';
+}
+
+::placeholder {
+  color: 'white';
+  opacity: 1; /* Firefox */
+}

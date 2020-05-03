@@ -3,18 +3,20 @@ import { connect } from 'react-redux';
 import Header from '../Components/Header';
 import ProductList from '../Components/ShoppingList';
 import { items } from '../JSON/JSONData.json';
+// import Filters from '../C/Filters';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isSearchInputActive: false,
+      searchText: '',
     };
   }
 
   componentDidMount() {
     console.log('Home screen mounted', this.props);
-    this.props.dispatch({ type: 'ADD_ITEMS', payload: items });
+    // this.props.dispatch({ type: 'ADD_ITEMS', payload: items });
   }
 
   handleSearchButton = () => {
@@ -22,13 +24,18 @@ class Home extends Component {
     this.setState({ isSearchInputActive: !this.state.isSearchInputActive });
   };
 
+  handleSearchText = (value) => {
+    this.setState({ searchText: value });
+  };
+
   render() {
     const { products } = this.props;
-    const { isSearchInputActive } = this.state;
+    const { isSearchInputActive, searchText } = this.state;
 
     return (
       <div style={{ backgroundColor: '#ccc' }}>
         <Header
+          handleSearchText={this.handleSearchText}
           isActive={isSearchInputActive}
           handleInputClick={this.handleSearchButton}
         />
@@ -51,7 +58,7 @@ class Home extends Component {
             filter
           </div>
           <div style={{}}>
-            <ProductList data={products} />
+            <ProductList searchText={searchText} data={products} />
           </div>
         </div>
       </div>

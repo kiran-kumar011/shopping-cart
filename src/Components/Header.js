@@ -4,9 +4,23 @@ import { connect } from 'react-redux';
 import Input from '../Components/Input';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputText: '',
+    };
+  }
+
+  handleChange = (e) => {
+    this.setState({ inputText: e.target.value }, () => {
+      this.props.handleSearchText(this.state.inputText);
+    });
+  };
+
   render() {
     const { cart, isActive } = this.props;
-    console.log(isActive, 'isActive');
+    const { inputText } = this.state;
+    console.log(inputText, 'isActive');
     return (
       <header>
         <div
@@ -29,6 +43,8 @@ class Header extends Component {
             {isActive ? (
               <div style={{ display: 'flex', borderBottom: '1px solid white' }}>
                 <input
+                  onChange={this.handleChange}
+                  value={inputText}
                   type="text"
                   placeholder="Search the product"
                   style={{ width: '10rem', color: '#fff' }}
